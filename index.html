@@ -433,6 +433,44 @@
             z-index: 1;
         }
 
+.video-thumbnail {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  background-color: #000;
+  overflow: hidden;
+}
+
+.video-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.video-card:hover .video-preview {
+  opacity: 1;
+}
+
+.video-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.video-card:hover .video-thumbnail img {
+  opacity: 0;
+}
+
+
         @media (max-width: 768px) {
             .category-buttons {
                 overflow-x: auto;
@@ -602,9 +640,27 @@
 
         <!-- Video Grid -->
         <h4 class="mb-3">Vídeos mais recentes</h4>
-        <div class="row" id="videoGrid">
-            <!-- Video cards will be dynamically loaded here -->
+    <div class="row" id="videoGrid">
+        <!-- Exemplo de card de vídeo com preview -->
+        <div class="col-md-3 col-sm-6 mb-4">
+            <div class="video-card">
+                <div class="video-thumbnail">
+                  <video class="video-preview" loop muted preload="metadata" poster="imagens/thumbnail.jpg">
+                    <source src="videos/exemplo.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-duration">12:34</div>
+                  <div class="premium-badge">PREMIUM</div>
+                </div>
+                <div class="video-info">
+                  <h5 class="video-title">Título do Vídeo Exemplo</h5>
+                  <div class="video-meta">
+                    <span><i class="fas fa-eye"></i> 1.2M</span>
+                    <span><i class="fas fa-calendar-alt"></i> 2 dias</span>
+                  </div>
+                </div>
+              </div>
         </div>
+    </div>
 
         <!-- Pagination -->
         <nav aria-label="Page navigation">
@@ -777,12 +833,11 @@
     </footer>
 
     <!-- Ad Modal (shown before video playback) -->
-    <div class="ad-modal" id="adModal" style="display: none;">
+    <div class="ad-modal" id="adModal" style="display: none; text-align: center;">
         <div class="ad-modal-content">
             <button class="close-ad" id="closeAd">X</button>
             <h4 class="text-center mb-3">Aproveite nosso patrocinador antes de assistir</h4>
-            <img src="https://via.placeholder.com/800x400?text=Video+Advertisement" alt="Video Ad"
-                class="img-fluid rounded">
+            <img src="imagens/banner-02.png " alt="Video Ad" class="img-fluid rounded">
             <div class="text-center mt-3">
                 <p>O vídeo começará em <span id="countdown">10</span> segundos</p>
                 <button class="btn btn-sm btn-outline-light" id="skipAd">Pular anúncio</button>
@@ -792,7 +847,7 @@
     <script>// Category filter
         const categoryBtns = document.querySelectorAll('.category-btn');
         categoryBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 categoryBtns.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 // In a real app, you would filter videos here
